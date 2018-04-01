@@ -102,6 +102,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Util\ReadFile.cs" />
+    <Compile Include="Util\WriteFile.cs" />
     <Compile Include="ViewModels\Command.cs" />
     <Compile Include="ViewModels\MainWindowVm.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">

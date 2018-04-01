@@ -15,7 +15,7 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/"
-        Title="Tool" Height="650" Width="900">
+        Title="Tool" Height="680" Width="900">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -261,7 +261,6 @@
                                          materialDesign:HintAssist.IsFloating="True"
                                          Text="{Binding FunctionId}"
                                          Margin="0 12 0 0"/>
-                                
                                 <TextBox Grid.Row="2"
                                          TextWrapping="Wrap"
                                          VerticalAlignment="Stretch"
@@ -274,6 +273,8 @@
                                          materialDesign:HintAssist.Hint="生成字段"/>
                                 <Button Grid.Row="3"
                                         Margin="0,30,0,0"
+                                        CommandParameter="1"
+                                        Command="{Binding BtnClickCommand}"
                                         Style="{StaticResource MaterialDesignRaisedLightButton}"
                                         Width="100"
                                         ToolTip="生成">
@@ -451,10 +452,38 @@
             </Grid>
         </WrapPanel>
 
-        <Grid>
-            
+        <StackPanel Margin="0,8,0,0">
+            <Grid Visibility="{Binding ContentShowFlag}">
+                <TextBox VerticalAlignment="Center"
+                              Height="130"
+                              Margin="200,8,200,0"
+                              TextWrapping="Wrap"
+                              AcceptsReturn="True"
+                              SpellCheck.IsEnabled="True"
+                              Text="{Binding ContentShow}"
+                              VerticalScrollBarVisibility="Auto"/>
+                <Button
+                         Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                         HorizontalAlignment="Right"
+                         ToolTip="拷贝"
+                         Command="{Binding CopyContentShowCommand}"
+                         VerticalAlignment="Center"
+                         Margin="0 0 16 50">
+                    <materialDesign:PackIcon
+                             Kind="Bike" />
+                </Button>
+            </Grid>
+        </StackPanel>
+
+        <Grid ZIndex="9" Width="350" Margin="0,5,0,0">
+            <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
+                                     HorizontalAlignment="Stretch"
+
+                                     x:Name="SnackbarThree">
+                <materialDesign:SnackbarMessage />
+            </materialDesign:Snackbar>
         </Grid>
 
     </StackPanel>
     
-</Window>
+     </Window>

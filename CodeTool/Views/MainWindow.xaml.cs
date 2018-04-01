@@ -60,6 +60,8 @@
 
             FunctionGeneration.Margin = new Thickness(8,0,0,0);
             ExcleGeneration.Margin = new Thickness(9,0,0,0);
+
+            ((MainWindowVm)this.DataContext).SetFlagCommand.Execute(true);
         }
     }
 }
