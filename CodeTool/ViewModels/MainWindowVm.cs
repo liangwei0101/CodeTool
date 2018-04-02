@@ -195,7 +195,8 @@ namespace CodeTool.ViewModels
         {
             window = obj;
             _writeFile = new WriteFile();
-            ReadFile.LoadFiledNameFile();
+            ReadFile.LoadStdfieldsFile();
+            ReadFile.LoadDatatypesFile();
             _FieldNameList = ReadFile.FieldNameList;
         }
 

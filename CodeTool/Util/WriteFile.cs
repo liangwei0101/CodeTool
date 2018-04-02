@@ -35,21 +35,33 @@ namespace CodeTool.Util
             sw.WriteLine("{");
             for (var i = 0; i < oldStrList.Length; i++)
             {
-                sw.WriteLine("private string" + " " + oldStrList[i] + " " + ";");
+                var type = "";
+                var notes = "";
+                var obj = ReadFile.DictionaryList.FirstOrDefault(s => s.Name == oldStrList[i]);
+                if (obj == null)
+                {
+                    type = "string";
+                }
+                else
+                {
+                    type = obj.Type;
+                    notes = obj.Cname;
+                }
+
+                sw.WriteLine("private"+ " " + type + " " + oldStrList[i] + " " + ";");
 
                 sw.WriteLine("/// <summary>");
-                var temp = ReadFile.FieldNameList.FirstOrDefault(s=>s.Key == oldStrList[i]);
-                if (!string.IsNullOrWhiteSpace(temp.Value))
+                if (!string.IsNullOrWhiteSpace(notes))
                 {
-                    sw.WriteLine("/// " + temp.Value);
+                    sw.WriteLine("/// " + notes);
                 }
                 else
                 {
                     sw.WriteLine("/// " + " ");
                 }
-                sw.WriteLine("/// <summary>");
+                sw.WriteLine("/// </summary>");
 
-                sw.WriteLine("public string" + " " + newStrList[i]);
+                sw.WriteLine("public"+ " " + type + " " + newStrList[i]);
                 sw.WriteLine("{");
                 sw.WriteLine("get { return" + " " + oldStrList[i] + "; }");
                 sw.WriteLine("set");
@@ -67,8 +79,15 @@ namespace CodeTool.Util
 
         private string[] StrsSet(string strs)
         {
-            string[] strsList = strs.Split(',');
-            return strsList;
+            if (strs.Contains(','))
+            {
+                string[] strsList = strs.Split(',');
+                return strsList;
+            }
+            else
+            {
+                return new[] { strs };
+            }
         }
 
         private string[] OldStrsListSet(string strs)
@@ -100,6 +119,10 @@ namespace CodeTool.Util
                         tempStr += tempList[j];
                     }
                     newStr[i] = tempStr;
+                }
+                else
+                {
+                    newStr[i] =  System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(strs[i]);
                 }
             }
             return newStr;

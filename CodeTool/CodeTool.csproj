@@ -102,6 +102,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Dictionary.cs" />
     <Compile Include="Util\ReadFile.cs" />
     <Compile Include="Util\WriteFile.cs" />
     <Compile Include="ViewModels\Command.cs" />
@@ -139,9 +140,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Tool.ico" />
   </ItemGroup>
