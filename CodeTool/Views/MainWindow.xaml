@@ -356,6 +356,8 @@
                                         Margin="0,30,0,0"
                                         Style="{StaticResource MaterialDesignRaisedLightButton}"
                                         Width="100"
+                                        CommandParameter="2"
+                                        Command="{Binding BtnClickCommand}"
                                         ToolTip="提交">
                                     <TextBlock Text="提交" Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
                                 </Button>
@@ -441,8 +443,10 @@
                                         Margin="0,30,0,0"
                                         Style="{StaticResource MaterialDesignRaisedLightButton}"
                                         Width="100"
-                                        ToolTip="提交">
-                                    <TextBlock Text="提交" Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
+                                        Command="{Binding FunctionClickCommand}"
+                                        ToolTip="确定">
+                                    <TextBlock Text="确定"
+                                               Style="{StaticResource MaterialDesignSubheadingTextBlock}"/>
                                 </Button>
                             </Grid>
                         </Grid>

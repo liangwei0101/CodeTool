@@ -11,6 +11,7 @@ namespace CodeTool.ViewModels
     using GalaSoft.MvvmLight.Command;
     using MaterialDesignThemes.Wpf;
     using Views;
+    using CodeTool.Service;
 
     // Base class for MainWindow's ViewModels. All methods must be virtual. Default constructor must exist.
     //  Using this Base Class will allow xaml to bind variables to a concrete View Model at compile time
@@ -195,7 +196,11 @@ namespace CodeTool.ViewModels
         {
             if (obj == "1")
             {
-                ValiDation();
+                ManualGeneration();
+            }
+            else if(obj == "2")
+            {
+                FunctionGeneration();
             }
         }
 
@@ -271,12 +276,17 @@ namespace CodeTool.ViewModels
             SetTipInfo("代码拷贝成功！", "OK");
         }
 
-        private void ValiDation()
+        private void ManualGeneration()
         {
             _writeFile.CreateDirectory();
             _writeFile.CreateModel(ProjectName, FunctionId, InputStr);
             _strList = ReadFile.ReadSdkModelFile(FunctionId);
             SetContentShow();
+        }
+
+        private void FunctionGeneration()
+        {
+            SetFunctionIdSendStr();
         }
 
         private void SetContentShow()
@@ -296,7 +306,11 @@ namespace CodeTool.ViewModels
         /// </summary>
         private void SetFunctionIdSendStr()
         {
+            CodeToolService codeToolService = new CodeToolService();
+            codeToolService.FuntionSend("8888",args=>
+            {
 
+            });
         }
 
         private void SetFlagAction(bool flag)

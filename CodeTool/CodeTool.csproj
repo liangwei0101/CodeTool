@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -106,6 +107,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Dictionary.cs" />
+    <Compile Include="Models\SendFunctionDto.cs" />
+    <Compile Include="Models\ShowList.cs" />
+    <Compile Include="Service\CodeToolService.cs" />
     <Compile Include="Util\ReadFile.cs" />
     <Compile Include="Util\WriteFile.cs" />
     <Compile Include="ViewModels\Command.cs" />
