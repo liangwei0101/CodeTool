@@ -22,59 +22,112 @@ namespace CodeTool.Util
         /// </summary>
         public void CreateModel(string projectName, string functionId, string strs)
         {
-            var fileName = @"./Sdk/Model/" + "F" + functionId + "_Info" + ".cs";
-            var sw = new StreamWriter(fileName, false, Encoding.UTF8);
-            var oldStrList = OldStrsListSet(strs);
-            var strList = StrsSet(strs);
-            var newStrList = NewStrsListSet(strList);
-
-            sw.WriteLine("using HSUCF.WPF.Core;");
-            sw.WriteLine("namespace" + " " + projectName + ".Sdk.Model");
-            sw.WriteLine("{");
-            sw.WriteLine("public class" + " " + "F" + functionId + "_Info" + " " + ": ObservableObject");
-            sw.WriteLine("{");
-            for (var i = 0; i < oldStrList.Length; i++)
+            if(!string.IsNullOrWhiteSpace(projectName) && !string.IsNullOrWhiteSpace(functionId))
             {
-                var type = "";
-                var notes = "";
-                var obj = ReadFile.DictionaryList.FirstOrDefault(s => s.Name == oldStrList[i]);
-                if (obj == null)
-                {
-                    type = "string";
-                }
-                else
-                {
-                    type = obj.Type;
-                    notes = obj.Cname;
-                }
+                var fileName = @"./Sdk/Model/" + "F" + functionId + "_Info" + ".cs";
+                var sw = new StreamWriter(fileName, false, Encoding.UTF8);
+                var oldStrList = OldStrsListSet(strs);
+                var strList = StrsSet(strs);
+                var newStrList = NewStrsListSet(strList);
 
-                sw.WriteLine("private"+ " " + type + " " + oldStrList[i] + " " + ";");
-
-                sw.WriteLine("/// <summary>");
-                if (!string.IsNullOrWhiteSpace(notes))
-                {
-                    sw.WriteLine("/// " + notes);
-                }
-                else
-                {
-                    sw.WriteLine("/// " + " ");
-                }
-                sw.WriteLine("/// </summary>");
-
-                sw.WriteLine("public"+ " " + type + " " + newStrList[i]);
+                sw.WriteLine("using HSUCF.WPF.Core;");
+                sw.WriteLine("namespace" + " " + projectName + ".Sdk.Model");
                 sw.WriteLine("{");
-                sw.WriteLine("get { return" + " " + oldStrList[i] + "; }");
-                sw.WriteLine("set");
+                sw.WriteLine("public class" + " " + "F" + functionId + "_Info" + " " + ": ObservableObject");
                 sw.WriteLine("{");
-                sw.WriteLine(oldStrList[i] + " = value;");
-                sw.WriteLine("  RaisePropertyChanged(() =>" + newStrList[i] + ");");
+                for (var i = 0; i < oldStrList.Length; i++)
+                {
+                    var type = "";
+                    var notes = "";
+                    var obj = ReadFile.DictionaryList.FirstOrDefault(s => s.Name == oldStrList[i]);
+                    if (obj == null)
+                    {
+                        type = "string";
+                    }
+                    else
+                    {
+                        type = obj.Type;
+                        notes = obj.Cname;
+                    }
+
+                    sw.WriteLine("private" + " " + type + " " + oldStrList[i] + " " + ";");
+
+                    sw.WriteLine("/// <summary>");
+                    if (!string.IsNullOrWhiteSpace(notes))
+                    {
+                        sw.WriteLine("/// " + notes);
+                    }
+                    else
+                    {
+                        sw.WriteLine("/// " + " ");
+                    }
+                    sw.WriteLine("/// </summary>");
+
+                    sw.WriteLine("public" + " " + type + " " + newStrList[i]);
+                    sw.WriteLine("{");
+                    sw.WriteLine("get { return" + " " + oldStrList[i] + "; }");
+                    sw.WriteLine("set");
+                    sw.WriteLine("{");
+                    sw.WriteLine(oldStrList[i] + " = value;");
+                    sw.WriteLine("  RaisePropertyChanged(() =>" + newStrList[i] + ");");
+                    sw.WriteLine("}");
+                    sw.WriteLine("}");
+                    sw.WriteLine("");
+                }
                 sw.WriteLine("}");
                 sw.WriteLine("}");
-                sw.WriteLine("");
+                sw.Close();
             }
-            sw.WriteLine("}");
-            sw.WriteLine("}");
-            sw.Close();
+            else
+            {
+                var fileName = @"./Sdk/Model/" + "F" + functionId + "_Info" + ".cs";
+                var sw = new StreamWriter(fileName, false, Encoding.UTF8);
+                var oldStrList = OldStrsListSet(strs);
+                var strList = StrsSet(strs);
+                var newStrList = NewStrsListSet(strList);
+
+                for (var i = 0; i < oldStrList.Length; i++)
+                {
+                    var type = "";
+                    var notes = "";
+                    var obj = ReadFile.DictionaryList.FirstOrDefault(s => s.Name == oldStrList[i]);
+                    if (obj == null)
+                    {
+                        type = "string";
+                    }
+                    else
+                    {
+                        type = obj.Type;
+                        notes = obj.Cname;
+                    }
+
+                    sw.WriteLine("private" + " " + type + " " + oldStrList[i] + " " + ";");
+
+                    sw.WriteLine("/// <summary>");
+                    if (!string.IsNullOrWhiteSpace(notes))
+                    {
+                        sw.WriteLine("/// " + notes);
+                    }
+                    else
+                    {
+                        sw.WriteLine("/// " + " ");
+                    }
+                    sw.WriteLine("/// </summary>");
+
+                    sw.WriteLine("public" + " " + type + " " + newStrList[i]);
+                    sw.WriteLine("{");
+                    sw.WriteLine("get { return" + " " + oldStrList[i] + "; }");
+                    sw.WriteLine("set");
+                    sw.WriteLine("{");
+                    sw.WriteLine(oldStrList[i] + " = value;");
+                    sw.WriteLine("  RaisePropertyChanged(() =>" + newStrList[i] + ");");
+                    sw.WriteLine("}");
+                    sw.WriteLine("}");
+                    sw.WriteLine("");
+                }
+                sw.Close();
+            }
+          
         }
 
         private string[] StrsSet(string strs)

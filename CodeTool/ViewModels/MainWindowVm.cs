@@ -182,9 +182,6 @@ namespace CodeTool.ViewModels
 
         private void BtnClickAction(string obj)
         {
-            if (string.IsNullOrWhiteSpace(ProjectName) || string.IsNullOrWhiteSpace(FunctionId) || string.IsNullOrWhiteSpace(InputStr))
-                return;
-
             if (obj == "1")
             {
                 ValiDation();
