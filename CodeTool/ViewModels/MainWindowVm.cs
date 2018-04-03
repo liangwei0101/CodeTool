@@ -36,6 +36,17 @@ namespace CodeTool.ViewModels
 
         #region 属性
 
+        private string _functionIdGenerationStr;
+        public string FunctionIdGenerationStr
+        {
+            get { return _functionIdGenerationStr; }
+            set
+            {
+                _functionIdGenerationStr = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private Visibility _contentShowFlag;
 
         public Visibility ContentShowFlag
@@ -202,13 +213,14 @@ namespace CodeTool.ViewModels
             ContentShow = "";
             ProjectName = "PBOX.User";
             FunctionId = "360516";
+            _strList = new List<string>();
             InputStr = "branch_no,client_name";
             CardShow = Visibility.Visible;
             ContentShowFlag = Visibility.Collapsed;
             ManualGenerationShow = Visibility.Visible;
             FunctionIdGenerationShow = Visibility.Visible;
             ExcleGenerationShow = Visibility.Visible;
-            _strList = new List<string>();
+            FunctionIdGenerationStr = "branch_no=\"8888\",operator_no=\"8888\",action_in=0";
         }
 
         private void CardIconClickAction(string carIndexs)
@@ -277,6 +289,14 @@ namespace CodeTool.ViewModels
                     continue;
                 ContentShow += item + "\n";
             }
+        }
+
+        /// <summary>
+        /// 设置功能号发送数据
+        /// </summary>
+        private void SetFunctionIdSendStr()
+        {
+
         }
 
         private void SetFlagAction(bool flag)

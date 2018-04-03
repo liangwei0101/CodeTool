@@ -85,6 +85,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="t2sdkEx">
+      <HintPath>C:\Users\Administrator\Desktop\CodeTool\CodeTool\CodeTool\bin\Debug\t2sdkEx.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
