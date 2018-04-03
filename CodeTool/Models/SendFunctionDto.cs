@@ -13,5 +13,6 @@ namespace CodeTool.Models
         public string Value;
 
         public string Type;
+
     }
 }

@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
+using System.Linq;
+using CodeTool.Models;
 using CodeTool.Util;
 
 namespace CodeTool.ViewModels
@@ -12,6 +15,7 @@ namespace CodeTool.ViewModels
     using MaterialDesignThemes.Wpf;
     using Views;
     using CodeTool.Service;
+    using System.Windows.Controls;
 
     // Base class for MainWindow's ViewModels. All methods must be virtual. Default constructor must exist.
     //  Using this Base Class will allow xaml to bind variables to a concrete View Model at compile time
@@ -19,6 +23,7 @@ namespace CodeTool.ViewModels
     {
         #region 私有变量
 
+        private ShowList _showList;
         private Dictionary<string, string> _FieldNameList;
         List<string> _strList;
         WriteFile _writeFile = null;
@@ -36,6 +41,17 @@ namespace CodeTool.ViewModels
         public virtual void Dispose() { }
 
         #region 属性
+
+        private Visibility _dataGridContentShow;
+        public Visibility DataGridContentShow
+        {
+            get { return _dataGridContentShow; }
+            set
+            {
+                _dataGridContentShow = value;
+                RaisePropertyChanged();
+            }
+        }
 
         private string _functionIdGenerationStr;
         public string FunctionIdGenerationStr
@@ -174,6 +190,8 @@ namespace CodeTool.ViewModels
 
         #region 命令
 
+        public ICommand FunctionColumsCommand => new RelayCommand(FunctionIdGenerationAction);
+
         public ICommand SetFlagCommand => new RelayCommand<bool>(SetFlagAction);
 
         public ICommand CopyContentShowCommand => new RelayCommand(CopyContentShowAction);
@@ -225,7 +243,8 @@ namespace CodeTool.ViewModels
             ManualGenerationShow = Visibility.Visible;
             FunctionIdGenerationShow = Visibility.Visible;
             ExcleGenerationShow = Visibility.Visible;
-            FunctionIdGenerationStr = "branch_no=\"8888\",operator_no=\"8888\",action_in=0";
+            DataGridContentShow = Visibility.Collapsed;
+            FunctionIdGenerationStr = "branch_no=8888,operator_no=8888,menu_id=362201";
         }
 
         private void CardIconClickAction(string carIndexs)
@@ -306,11 +325,35 @@ namespace CodeTool.ViewModels
         /// </summary>
         private void SetFunctionIdSendStr()
         {
-            CodeToolService codeToolService = new CodeToolService();
-            codeToolService.FuntionSend("8888",args=>
+            var menuId = Convert.ToInt32(FunctionId);
+            var codeToolService = new CodeToolService();
+            codeToolService.FuntionSend(menuId, FunctionIdGenerationStr, args=>
             {
-
+                _showList = args;
+                SetData(window.DataGrid);
+                DataGridContentShow = Visibility.Visible;
             });
+        }
+
+        private void FunctionIdGenerationAction()
+        {
+            var strs = SetFunctionColumsShow();
+            _writeFile.CreateDirectory();
+            _writeFile.CreateModel(ProjectName, FunctionId, strs);
+            _strList = ReadFile.ReadSdkModelFile(FunctionId);
+            SetContentShow();
+            DataGridContentShow = Visibility.Collapsed;
+        }
+
+        private string SetFunctionColumsShow()
+        {
+            var strs = "";
+            foreach (var item in _showList.NameList)
+            {
+                strs += item + ",";
+            }
+            strs = strs.Substring(0, strs.Length - 1);
+            return strs;
         }
 
         private void SetFlagAction(bool flag)
@@ -323,6 +366,31 @@ namespace CodeTool.ViewModels
             {
                 ContentShowFlag = Visibility.Visible;
             }
+        }
+
+        private void SetData(DataGrid dataGrid)
+        {
+            if (_showList?.NameList == null)
+                return;
+
+            DataTable dt = new DataTable();
+
+            foreach (var itme in _showList.NameList)
+            {
+                dt.Columns.Add(itme, typeof(string));
+            }
+
+            for (int i = 0; i < _showList.ValueList.Length; i++)
+            {
+                DataRow row = dt.NewRow();
+                for (int j = 0; j < _showList?.ValueList?.FirstOrDefault()?.Count; j++)
+                {
+                    row[_showList.NameList[j]] = _showList.ValueList[i][j];
+                }
+                dt.Rows.Add(row);
+            }
+
+            dataGrid.ItemsSource = dt.DefaultView;
         }
 
         private void SetTipInfo(string content, string title)

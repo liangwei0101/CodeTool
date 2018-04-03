@@ -72,7 +72,7 @@ namespace CodeTool.Util
                     sw.WriteLine("  RaisePropertyChanged(() =>" + newStrList[i] + ");");
                     sw.WriteLine("}");
                     sw.WriteLine("}");
-                    sw.WriteLine("");
+                    //sw.WriteLine("");
                 }
                 sw.WriteLine("}");
                 sw.WriteLine("}");

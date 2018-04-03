@@ -351,6 +351,8 @@
                                          materialDesign:HintAssist.Hint="字段"
                                          materialDesign:HintAssist.IsFloating="True"
                                          Text="{Binding FunctionIdGenerationStr}"
+                                         TextWrapping="Wrap"
+                                         AcceptsReturn="True"
                                          Margin="0 12 0 0"/>
                                 <Button Grid.Row="3"
                                         Margin="0,30,0,0"
@@ -458,23 +460,41 @@
         <StackPanel Margin="0,8,0,0">
             <Grid Visibility="{Binding ContentShowFlag}">
                 <TextBox VerticalAlignment="Center"
-                              Height="130"
-                              Margin="200,8,200,0"
-                              TextWrapping="Wrap"
-                              AcceptsReturn="True"
-                              SpellCheck.IsEnabled="True"
-                              Text="{Binding ContentShow}"
-                              VerticalScrollBarVisibility="Auto"/>
+                         Height="130"
+                         Margin="200,8,200,0"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         SpellCheck.IsEnabled="True"
+                         Text="{Binding ContentShow}"
+                         VerticalScrollBarVisibility="Auto"/>
                 <Button
-                         Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                         HorizontalAlignment="Right"
-                         ToolTip="拷贝"
-                         Command="{Binding CopyContentShowCommand}"
-                         VerticalAlignment="Center"
-                         Margin="0 0 16 50">
+                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                    HorizontalAlignment="Right"
+                    ToolTip="拷贝"
+                    Command="{Binding CopyContentShowCommand}"
+                    VerticalAlignment="Center"
+                    Margin="0 0 16 50">
                     <materialDesign:PackIcon
-                             Kind="Bike" />
+                        Kind="Bike" />
                 </Button>
+            </Grid>
+            <Grid Visibility="{Binding DataGridContentShow}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Row="0"
+                          CanUserAddRows="False"
+                          Margin="15,0,15,0"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          Name="DataGrid"/>
+                <Button Margin="0,10,0,0"
+                        Grid.Row="1"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Width="100"
+                        Content="生成"
+                        Command="{Binding FunctionColumsCommand}"
+                        ToolTip="根据返回字段生成"/>
             </Grid>
         </StackPanel>
 
@@ -489,4 +509,4 @@
 
     </StackPanel>
     
-     </Window>
+</Window>

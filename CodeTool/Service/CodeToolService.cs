@@ -2,26 +2,63 @@
 using hundsun.t2sdk;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using CodeTool.Util;
 
 namespace CodeTool.Service
 {
     public class CodeToolService
     {
+        private List<SendFunctionDto> _sendFunctionDtoList;
         private ShowList _showlist;
         private CT2Configinterface _config = null;
         public CT2Connection Conn = null;
         private Callbacktest _callback = null;
 
+        public CodeToolService()
+        {
+            _sendFunctionDtoList = new List<SendFunctionDto>();
+        }
+
+        private void SetSendFunctionStrs(string strs)
+        {
+            if (strs.Contains(","))
+            {
+                var valueList = strs.Split(',');
+                foreach (var item in valueList)
+                {
+                    if (item.Contains("="))
+                    {
+                        var valueTempList = item.Split('=');
+                        var firstOrDefault = ReadFile.DictionaryList?.FirstOrDefault(s => s.Name == valueTempList[0]);
+                        if (firstOrDefault!=null)
+                        {
+                            var sendFunctionDto = new SendFunctionDto
+                            {
+                                Name = valueTempList[0],
+                                Value = valueTempList[1],
+                                Type = firstOrDefault.Type,
+                            };
+                            _sendFunctionDtoList.Add(sendFunctionDto);
+                        }
+                    }
+                }
+            }
+
+            var aa = _sendFunctionDtoList;
+        }
+
         /// <summary>
         /// 功能号发送
         /// </summary>
-        public void FuntionSend(string fundAccount, Action<ShowList> callback)
+        public void FuntionSend(int functionId, string functionIdGenerationStr, Action<ShowList> callback)
         {
             var flag = Connect();
             if (flag == 0)
             {
-                SendFunctionAction(fundAccount, callback);
+                SetSendFunctionStrs(functionIdGenerationStr);
+                SendFunctionAction(functionId,functionIdGenerationStr, callback);
             }
             else
             {
@@ -29,34 +66,44 @@ namespace CodeTool.Service
             }
         }
 
-        public void SendFunctionAction(string fundAccount, Action<ShowList> callback)
+        public void SendFunctionAction(int functionId,string functionIdGenerationStr, Action<ShowList> callback)
         {
             CT2Esbmsg t2Message = new CT2Esbmsg();//构造消息
-            t2Message.GetItem(CT2tag_def.TAG_FUNCTION_ID).SetInt(360516, 0);//设置功能号
+            t2Message.GetItem(CT2tag_def.TAG_FUNCTION_ID).SetInt(functionId, 0);//设置功能号
             t2Message.GetItem(CT2tag_def.TAG_PACKET_TYPE).SetInt(0, 0); ;//设置消息类型为请求
             //打包请求报文
-            CT2Packer packer = new CT2Packer(2);
+            CT2Packer packer = new CT2Packer(3);
             sbyte strType = Convert.ToSByte('S');
             sbyte intType = Convert.ToSByte('I');
-            //byte[] clob = new byte[10] ;
+            sbyte charType = Convert.ToSByte('C');
             packer.BeginPack();
             //插件编号
             //管理功能号
-            packer.AddField("function_id", intType, 255, 4);
-            packer.AddField("branch_no", intType, 255, 4);
-            packer.AddField("operator_no", strType, 255, 4);
-            packer.AddField("operator_no1", strType, 255, 4);
-            //packer.AddField("branch_no", , 255, 4);
-            packer.AddInt(360516);
-            packer.AddInt(5999);
-            packer.AddStr("8888");
 
-            packer.AddInt(360516);
-            packer.AddInt(5999);
-            packer.AddStr("8888");
+            foreach (var item in _sendFunctionDtoList)
+            {
+                if (item.Type == "int")
+                {
+                    packer.AddField(item.Name, intType, 255, 4);
+                }
+                else if(item.Type == "string")
+                {
+                    packer.AddField(item.Name, strType, 255, 4);
+                }
+            }
 
-            packer.AddInt(5999);
-            packer.AddStr("8888");
+            foreach (var item in _sendFunctionDtoList)
+            {
+                if (item.Type == "int")
+                {
+                    packer.AddInt(Convert.ToInt32(item.Value));
+                }
+                else if (item.Type == "string")
+                {
+                    packer.AddStr(item.Value);
+                }
+            }
+
             packer.EndPack();
 
             unsafe
@@ -133,6 +180,7 @@ namespace CodeTool.Service
         {
             var flag = 0;
             var count = lpUnPack.GetRowCount();
+            _showlist = new ShowList();
             _showlist.ValueList = new List<string>[count];
             _showlist.NameList = new List<string>();
 
