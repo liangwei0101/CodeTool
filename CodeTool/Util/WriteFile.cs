@@ -130,6 +130,105 @@ namespace CodeTool.Util
           
         }
 
+        public void CreateResponse(string projectName, string functionId, string strs)
+        {
+            if (!string.IsNullOrWhiteSpace(projectName) && !string.IsNullOrWhiteSpace(functionId))
+            {
+                var fileName = @"./Sdk/Response/" + "F" + functionId + "_Response.cs";
+                var sw = new StreamWriter(fileName, false, Encoding.UTF8);
+                var oldStrList = OldStrsListSet(strs);
+                var strList = StrsSet(strs);
+                var newStrList = NewStrsListSet(strList);
+
+                sw.WriteLine("using HSUCF.Communication;");
+                sw.WriteLine("using System.Collections.ObjectModel;");
+                sw.WriteLine("using" + projectName + ".Sdk.Model;");
+                sw.WriteLine("using HSUF.Wpf.Core.Sdk;");
+                sw.WriteLine("namespace" + " " + projectName + ".Sdk.Response");
+                sw.WriteLine("{");
+
+                for (var i = 0; i < oldStrList.Length; i++)
+                {
+                    var type = "";
+                    var obj = ReadFile.DictionaryList.FirstOrDefault(s => s.Name == oldStrList[i]);
+                    if (obj == null)
+                    {
+                        type = "string";
+                    }
+                    else
+                    {
+                        type = obj.Type;
+                    }
+
+                    var tempStr = @"";
+                    switch (type)
+                    {
+                        case "string":
+                            tempStr = "GetStr" + "(" + "\"" + oldStrList[i] + "\"" + ")";
+                            break;
+                        case "int":
+                            tempStr = "GetInt" + "(" + "\"" + oldStrList[i] + "\"" + ")";
+                            break;
+                        case "char":
+                            tempStr = "GetChar" + "(" + "\"" + oldStrList[i] + "\"" + ")";
+                            break;
+                        case "double":
+                            tempStr = "GetDouble" + "(" + "\"" + oldStrList[i] + "\"" + ")";
+                            break;
+                    }
+
+                    sw.WriteLine("info." + newStrList[i] + " = " + "unpacker." + tempStr);
+                }
+
+                sw.WriteLine("}");
+                sw.Close();
+            }
+            else
+            {
+                var fileName = @"./Sdk/Response/" + "F" + functionId + "_Response.cs";
+                var sw = new StreamWriter(fileName, false, Encoding.UTF8);
+                var oldStrList = OldStrsListSet(strs);
+                var strList = StrsSet(strs);
+                var newStrList = NewStrsListSet(strList);
+
+                for (var i = 0; i < oldStrList.Length; i++)
+                {
+                    var type = "";
+                    var obj = ReadFile.DictionaryList.FirstOrDefault(s => s.Name == oldStrList[i]);
+                    if (obj == null)
+                    {
+                        type = "string";
+                    }
+                    else
+                    {
+                        type = obj.Type;
+                    }
+
+                    var tempStr = @"";
+                    switch (type)
+                    {
+                        case "string":
+                            tempStr = "GetStr" + "(" + "\"" + oldStrList[i] + "\"" + ")";
+                            break;
+                        case "int":
+                            tempStr = "GetInt" + "(" + "\"" + oldStrList[i] + "\"" + ")";
+                            break;
+                        case "char":
+                            tempStr = "GetChar" + "(" + "\"" + oldStrList[i] + "\"" + ")";
+                            break;
+                        case "double":
+                            tempStr = "GetDouble" + "(" + "\"" + oldStrList[i] + "\"" + ")";
+                            break;
+                    }
+
+                    sw.WriteLine("info." + newStrList[i] + " = " + "unpacker." + tempStr);
+                }
+
+                sw.WriteLine("}");
+                sw.Close();
+            }
+        }
+
         private string[] StrsSet(string strs)
         {
             if (strs.Contains(','))

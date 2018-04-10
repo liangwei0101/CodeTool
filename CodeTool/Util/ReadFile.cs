@@ -29,6 +29,20 @@ namespace CodeTool.Util
             return tempList;
         }
 
+        public static List<string> ReadSdkResponseFile(string functionId)
+        {
+            var tempList = new List<string>();
+            string path = @"./Sdk/Response/" + "F" + functionId + "_Response.cs";
+            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            StreamReader streamReader = new StreamReader(fs);
+            String line;
+            while ((line = streamReader.ReadLine()) != null)
+            {
+                tempList.Add(line);
+            }
+            return tempList;
+        }
+
         public static void LoadStdfieldsFile()
         {
             DictionaryList = new List<Dictionary>();

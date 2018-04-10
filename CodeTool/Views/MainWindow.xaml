@@ -459,6 +459,17 @@
 
         <StackPanel Margin="0,8,0,0">
             <Grid Visibility="{Binding ContentShowFlag}">
+                <StackPanel Margin="-720,30,0,0" Width="95" ZIndex="9">
+                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                            Command="{Binding ModelClickCommand}"
+                            Content="Model"
+                            ToolTip="Model文件"/>
+                    <Button Margin="0,20,0,0"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Command="{Binding ResponseClickCommand}"
+                            Content="Response"
+                            ToolTip="Response文件"/>
+                </StackPanel>
                 <TextBox VerticalAlignment="Center"
                          Height="130"
                          Margin="200,8,200,0"
@@ -467,15 +478,14 @@
                          SpellCheck.IsEnabled="True"
                          Text="{Binding ContentShow}"
                          VerticalScrollBarVisibility="Auto"/>
-                <Button
-                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                    HorizontalAlignment="Right"
-                    ToolTip="拷贝"
-                    Command="{Binding CopyContentShowCommand}"
-                    VerticalAlignment="Center"
-                    Margin="0 0 16 50">
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        HorizontalAlignment="Right"
+                        ToolTip="拷贝"
+                        Command="{Binding CopyContentShowCommand}"
+                        VerticalAlignment="Center"
+                        Margin="0 0 50 10">
                     <materialDesign:PackIcon
-                        Kind="Bike" />
+                        Kind="ContentPaste" />
                 </Button>
             </Grid>
             <Grid Visibility="{Binding DataGridContentShow}">

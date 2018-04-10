@@ -25,7 +25,8 @@ namespace CodeTool.ViewModels
 
         private ShowList _showList;
         private Dictionary<string, string> _FieldNameList;
-        List<string> _strList;
+        List<string> _strModelList;
+        List<string> _strResponseList;
         WriteFile _writeFile = null;
         MainWindow window = null;
         Flipper flipper = null;
@@ -190,6 +191,10 @@ namespace CodeTool.ViewModels
 
         #region 命令
 
+        public ICommand ResponseClickCommand => new RelayCommand(ResponseClickAction);
+
+        public ICommand ModelClickCommand => new RelayCommand(ModelClickAction);
+
         public ICommand FunctionColumsCommand => new RelayCommand(FunctionIdGenerationAction);
 
         public ICommand SetFlagCommand => new RelayCommand<bool>(SetFlagAction);
@@ -218,6 +223,7 @@ namespace CodeTool.ViewModels
             }
             else if(obj == "2")
             {
+                ContentShowFlag = Visibility.Collapsed;
                 FunctionGeneration();
             }
         }
@@ -236,7 +242,7 @@ namespace CodeTool.ViewModels
             ContentShow = "";
             ProjectName = "PBOX.User";
             FunctionId = "360516";
-            _strList = new List<string>();
+            _strModelList = new List<string>();
             InputStr = "branch_no,client_name";
             CardShow = Visibility.Visible;
             ContentShowFlag = Visibility.Collapsed;
@@ -299,7 +305,9 @@ namespace CodeTool.ViewModels
         {
             _writeFile.CreateDirectory();
             _writeFile.CreateModel(ProjectName, FunctionId, InputStr);
-            _strList = ReadFile.ReadSdkModelFile(FunctionId);
+            _writeFile.CreateResponse(ProjectName, FunctionId, InputStr);
+            _strModelList = ReadFile.ReadSdkModelFile(FunctionId);
+            _strResponseList = ReadFile.ReadSdkResponseFile(FunctionId);
             SetContentShow();
         }
 
@@ -312,9 +320,26 @@ namespace CodeTool.ViewModels
         {
             ContentShow = "";
             ContentShowFlag = Visibility.Visible;
-            foreach (var item in _strList)
+            foreach (var item in _strModelList)
             {
                 if(string.IsNullOrWhiteSpace(item))
+                    continue;
+                ContentShow += item + "\n";
+            }
+        }
+
+        private void ModelClickAction()
+        {
+            SetContentShow();
+        }
+
+        private void ResponseClickAction()
+        {
+            ContentShow = "";
+            ContentShowFlag = Visibility.Visible;
+            foreach (var item in _strResponseList)
+            {
+                if (string.IsNullOrWhiteSpace(item))
                     continue;
                 ContentShow += item + "\n";
             }
@@ -340,7 +365,7 @@ namespace CodeTool.ViewModels
             var strs = SetFunctionColumsShow();
             _writeFile.CreateDirectory();
             _writeFile.CreateModel(ProjectName, FunctionId, strs);
-            _strList = ReadFile.ReadSdkModelFile(FunctionId);
+            _strModelList = ReadFile.ReadSdkModelFile(FunctionId);
             SetContentShow();
             DataGridContentShow = Visibility.Collapsed;
         }
