@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Xml.Linq;
 
 namespace CodeTool.Util
@@ -48,6 +49,18 @@ namespace CodeTool.Util
             DictionaryList = new List<Dictionary>();
             FieldNameList = new Dictionary<string, string>();
 
+            try
+            {
+                XDocument document1 = XDocument.Load("stdfields.xml");
+                document1 = null;
+            }
+            //将XML文件加载进来
+            catch
+            {
+                MessageBox.Show("请先把标准字段文件：stdfields.xml放于bin目录下");
+                return;
+            }
+
             //将XML文件加载进来
             XDocument document = XDocument.Load("stdfields.xml");
             //获取根元素下的所有子元素
@@ -71,8 +84,18 @@ namespace CodeTool.Util
         public static void LoadDatatypesFile()
         {
             FieldNameList = new Dictionary<string, string>();
-
+            try
+            {
+                XDocument document1 = XDocument.Load("datatypes.xml");
+                document1 = null;
+            }
             //将XML文件加载进来
+            catch
+            {
+                MessageBox.Show("请先把标准字段文件：datatypes.xml放于bin目录下");
+                return;
+            }
+
             XDocument document = XDocument.Load("datatypes.xml");
             //获取根元素下的所有子元素
             XElement root = document.Root;

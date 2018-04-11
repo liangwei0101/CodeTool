@@ -244,6 +244,7 @@ namespace CodeTool.Util
 
         private string[] OldStrsListSet(string strs)
         {
+            strs = strs.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "");
             if (strs.Contains(","))
             {
                 var tempList = strs.Split(',');
@@ -261,6 +262,7 @@ namespace CodeTool.Util
             string[] newStr = new string[strs.Length];
             for (int i = 0; i < strs.Length; i++)
             {
+                strs[i] = strs[i].Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "");
                 if (strs[i].Contains("_"))
                 {
                     var tempStr = "";
