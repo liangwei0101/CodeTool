@@ -142,10 +142,20 @@ namespace CodeTool.Util
 
                 sw.WriteLine("using HSUCF.Communication;");
                 sw.WriteLine("using System.Collections.ObjectModel;");
-                sw.WriteLine("using" + projectName + ".Sdk.Model;");
+                sw.WriteLine("using " + projectName + ".Sdk.Model;");
                 sw.WriteLine("using HSUF.Wpf.Core.Sdk;");
                 sw.WriteLine("namespace" + " " + projectName + ".Sdk.Response");
                 sw.WriteLine("{");
+
+                sw.WriteLine("public class " + "F" + functionId + "__Response : IResponse");
+        
+                sw.WriteLine("#region 构造函数");
+                sw.WriteLine("public "+ "F"+ functionId+ "__Response()");
+                sw.WriteLine("\t{");
+                sw.WriteLine("this.F"+ functionId+ "_InfoList = new ObservableCollection<" + functionId + "_Info>();");
+                sw.WriteLine("\t}");
+                sw.WriteLine("#endregion");
+      
 
                 for (var i = 0; i < oldStrList.Length; i++)
                 {
@@ -177,8 +187,9 @@ namespace CodeTool.Util
                             break;
                     }
 
-                    sw.WriteLine("info." + newStrList[i] + " = " + "unpacker." + tempStr);
+                    sw.WriteLine("info." + newStrList[i] + " = " + "unpacker." + tempStr+";");
                 }
+
 
                 sw.WriteLine("}");
                 sw.Close();
