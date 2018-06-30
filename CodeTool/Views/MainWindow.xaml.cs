@@ -1,5 +1,6 @@
 ﻿namespace CodeTool.Views
 {
+    using ICSharpCode.AvalonEdit.Folding;
     using MaterialDesignThemes.Wpf;
     using System;
     using System.Windows;
@@ -11,6 +12,7 @@
     /// </summary>
     public partial class MainWindow : Window, IDisposable
     {
+        private readonly FoldingManager _foldingManager;
         private readonly MainWindowVm mainWindowVm;
 
         public MainWindow(MainWindowVm mainWindowVm)
@@ -21,6 +23,7 @@
             Closing += (sender, e) => { Dispose(); };
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
         }
 
         public void Dispose()

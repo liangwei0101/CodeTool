@@ -8,10 +8,12 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:CodeTool"
         xmlns:view="clr-namespace:CodeTool.Views"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:vm="clr-namespace:CodeTool.ViewModels"
         TextOptions.TextFormattingMode="Display"
         mc:Ignorable="d"
         x:Name="MainView"
+        ResizeMode="NoResize"       
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/"
@@ -215,7 +217,7 @@
                     </materialDesign:Flipper.FrontContent>
                     <!--后-->
                     <materialDesign:Flipper.BackContent>
-                        <Grid Height="360"
+                        <Grid Height="300"
                               Width="850">
                             <Grid.RowDefinitions>
                                 <RowDefinition
@@ -301,7 +303,7 @@
                     </materialDesign:Flipper.FrontContent>
                     <!--后-->
                     <materialDesign:Flipper.BackContent>
-                        <Grid Height="360"
+                        <Grid Height="300"
                               Width="850">
                             <Grid.RowDefinitions>
                                 <RowDefinition
@@ -384,7 +386,7 @@
                     </materialDesign:Flipper.FrontContent>
                     <!--后-->
                     <materialDesign:Flipper.BackContent>
-                        <Grid Height="360"
+                        <Grid Height="300"
                               Width="850">
                             <Grid.RowDefinitions>
                                 <RowDefinition
@@ -459,25 +461,32 @@
 
         <StackPanel Margin="0,8,0,0">
             <Grid Visibility="{Binding ContentShowFlag}">
-                <StackPanel Margin="-720,30,0,0" Width="95" ZIndex="9">
+                <!--<StackPanel Margin="-720,30,0,0" Width="95" ZIndex="9">
                     <Button Style="{StaticResource MaterialDesignFlatButton}"
                             Command="{Binding ModelClickCommand}"
                             Content="Model"
                             ToolTip="Model文件"/>
-                    <Button Margin="0,20,0,0"
+                    --><!--<Button Margin="0,20,0,0"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Command="{Binding ResponseClickCommand}"
                             Content="Response"
-                            ToolTip="Response文件"/>
-                </StackPanel>
-                <TextBox VerticalAlignment="Center"
+                            ToolTip="Response文件"/>--><!--
+                </StackPanel>-->
+                <!--<TextBox VerticalAlignment="Center"
                          Height="130"
                          Margin="200,8,200,0"
                          TextWrapping="Wrap"
                          AcceptsReturn="True"
                          SpellCheck.IsEnabled="True"
                          Text="{Binding ContentShow}"
-                         VerticalScrollBarVisibility="Auto"/>
+                         VerticalScrollBarVisibility="Auto"/>-->
+                <avalonEdit:TextEditor Name="textEditor"
+                               SyntaxHighlighting="C#"
+                               IsReadOnly="False"
+                               Height="300"
+                               Margin="200,8,200,0"
+                               FontFamily="Consolas"
+                               FontSize="10pt" />
                 <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                         HorizontalAlignment="Right"
                         ToolTip="拷贝"
@@ -490,7 +499,7 @@
             </Grid>
             <Grid Visibility="{Binding DataGridContentShow}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="200"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <DataGrid Grid.Row="0"

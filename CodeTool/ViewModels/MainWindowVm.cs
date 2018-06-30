@@ -326,6 +326,7 @@ namespace CodeTool.ViewModels
                     continue;
                 ContentShow += item + "\n";
             }
+           window.textEditor.Text = ContentShow;
         }
 
         private void ModelClickAction()
