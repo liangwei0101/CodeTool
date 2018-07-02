@@ -351,6 +351,11 @@ namespace CodeTool.ViewModels
         /// </summary>
         private void SetFunctionIdSendStr()
         {
+            if (string.IsNullOrWhiteSpace(FunctionId))
+            {
+                SetTipInfo("功能号不能为空！", "error");
+                return;
+            }
             var menuId = Convert.ToInt32(FunctionId);
             var codeToolService = new CodeToolService();
             codeToolService.FuntionSend(menuId, FunctionIdGenerationStr, args=>
@@ -364,6 +369,11 @@ namespace CodeTool.ViewModels
         private void FunctionIdGenerationAction()
         {
             var strs = SetFunctionColumsShow();
+            if (string.IsNullOrWhiteSpace(strs))
+            {
+                SetTipInfo("字段为空！", "error");
+                return;
+            }
             _writeFile.CreateDirectory();
             _writeFile.CreateModel(ProjectName, FunctionId, strs);
             _strModelList = ReadFile.ReadSdkModelFile(FunctionId);
@@ -378,7 +388,10 @@ namespace CodeTool.ViewModels
             {
                 strs += item + ",";
             }
-            strs = strs.Substring(0, strs.Length - 1);
+            if (!string.IsNullOrWhiteSpace(strs))
+            {
+                strs = strs.Substring(0, strs.Length - 1);
+            }
             return strs;
         }
 

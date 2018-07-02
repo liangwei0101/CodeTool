@@ -17,7 +17,7 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/"
-        Title="Tool" Height="680" Width="900">
+        Title="Tool" Height="780" Width="900">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -517,10 +517,10 @@
             </Grid>
         </StackPanel>
 
-        <Grid ZIndex="9" Width="350" Margin="0,5,0,0">
+        <Grid ZIndex="100" Width="350" Margin="0,5,0,50">
             <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
                                      HorizontalAlignment="Stretch"
-
+                                     Panel.ZIndex="100"
                                      x:Name="SnackbarThree">
                 <materialDesign:SnackbarMessage />
             </materialDesign:Snackbar>
